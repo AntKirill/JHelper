@@ -8,6 +8,7 @@ import com.intellij.util.text.StringTokenizer;
 import com.jetbrains.cidr.lang.psi.OCFile;
 import name.admitriev.jhelper.IDEUtils;
 import name.admitriev.jhelper.network.SimpleHttpServer;
+import name.admitriev.jhelper.parsing.MyJsonParser;
 import name.admitriev.jhelper.task.TaskData;
 import name.admitriev.jhelper.task.TaskUtils;
 import name.admitriev.jhelper.ui.Notificator;
@@ -44,7 +45,7 @@ public class ChromeParser implements ProjectComponent {
 		taskParsers.put("atcoder", new AtCoderParser());
 		taskParsers.put("csacademy", new CSAcademyParser());
 		taskParsers.put("new-gcj", new NewGCJParser());
-		taskParsers.put("json", new JSONParser());
+		taskParsers.put("json", new MyJsonParser());
 		PARSERS = Collections.unmodifiableMap(taskParsers);
 	}
 
