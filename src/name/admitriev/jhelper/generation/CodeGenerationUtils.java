@@ -64,7 +64,7 @@ public class CodeGenerationUtils {
 			throw new NotificationException("Not a cpp file", "Only cpp files are currently supported");
 		}
 
-		String result = IncludesProcessor.process(inputFile);
+		String result = IncludesProcessor.process(project, inputFile);
 		PsiFile psiOutputFile = getOutputFile(project);
 
 		FileUtils.writeToFile(

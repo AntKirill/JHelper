@@ -19,6 +19,7 @@ public class ConfigurationDialog extends DialogWrapper {
 	private FileSelector archiveDirectory;
 	private JCheckBox codeEliminationOn;
 	private JCheckBox codeReformattingOn;
+	private JCheckBox processAtCoderOn;
 
 	public ConfigurationDialog(@NotNull Project project, Configurator.State configuration) {
 		super(project);
@@ -49,6 +50,7 @@ public class ConfigurationDialog extends DialogWrapper {
 
 		codeEliminationOn = new JCheckBox("Eliminate code?", configuration.isCodeEliminationOn());
 		codeReformattingOn = new JCheckBox("Reformat code?", configuration.isCodeReformattingOn());
+		processAtCoderOn = new JCheckBox("Process atcoder? (Switch off for atcoder)", configuration.isProcessAtCoderOn());
 
 		JPanel panel = new JPanel(new VerticalLayout());
 		panel.add(LabeledComponent.create(author, "Author"));
@@ -58,6 +60,7 @@ public class ConfigurationDialog extends DialogWrapper {
 		panel.add(LabeledComponent.create(archiveDirectory, "Archive Directory"));
 		panel.add(codeEliminationOn);
 		panel.add(codeReformattingOn);
+		panel.add(processAtCoderOn);
 
 		component = panel;
 
@@ -78,7 +81,8 @@ public class ConfigurationDialog extends DialogWrapper {
 				runFile.getText(),
 				archiveDirectory.getText(),
 				codeEliminationOn.isSelected(),
-				codeReformattingOn.isSelected()
+				codeReformattingOn.isSelected(),
+				processAtCoderOn.isSelected()
 		);
 	}
 }

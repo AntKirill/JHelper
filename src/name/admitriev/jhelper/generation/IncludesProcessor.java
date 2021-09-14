@@ -1,10 +1,12 @@
 package name.admitriev.jhelper.generation;
 
+import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.jetbrains.cidr.lang.psi.OCFile;
 import com.jetbrains.cidr.lang.psi.OCIncludeDirective;
 import com.jetbrains.cidr.lang.psi.OCPragma;
+import name.admitriev.jhelper.components.Configurator;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
@@ -14,9 +16,10 @@ public class IncludesProcessor {
 	private Set<PsiFile> processedFiles = new HashSet<>();
 	@SuppressWarnings("StringBufferField")
 	private StringBuilder result = new StringBuilder();
+	private Configurator.State configuration;
 
-
-	private IncludesProcessor() {
+	private IncludesProcessor(Configurator.State configuration) {
+		this.configuration = configuration;
 	}
 
 	private void processFile(PsiFile file) {
@@ -45,8 +48,19 @@ public class IncludesProcessor {
 		}
 	}
 
-	private static boolean isInternalInclude(OCIncludeDirective include) {
+	private boolean isOJSupportedLibrary(OCIncludeDirective include) {
 		PsiFile file = include.getIncludedFile();
+		if (file == null) {
+			return false;
+		}
+		return file.getVirtualFile().getParent().getName().equals("atcoder");
+	}
+
+	private boolean isInternalInclude(OCIncludeDirective include) {
+		PsiFile file = include.getIncludedFile();
+		if (!configuration.isProcessAtCoderOn() && isOJSupportedLibrary(include)) {
+			return false;
+		}
 		return file != null && ((OCFile) file).isInProjectSources();
 	}
 
@@ -59,8 +73,9 @@ public class IncludesProcessor {
 		result.append(include.getText());
 	}
 
-	public static @NotNull String process(PsiFile file) {
-		IncludesProcessor processor = new IncludesProcessor();
+	public static @NotNull String process(Project project, PsiFile file) {
+		Configurator configurator = project.getService(Configurator.class);
+		IncludesProcessor processor = new IncludesProcessor(configurator.getState());
 		processor.processFile(file);
 		return processor.result.toString();
 	}

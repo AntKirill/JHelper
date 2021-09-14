@@ -35,6 +35,7 @@ public final class Configurator implements PersistentStateComponent<Configurator
 		private String archiveDirectory;
 		private boolean codeEliminationOn;
 		private boolean codeReformattingOn;
+		private boolean processAtCoderOn;
 
 		public State(
 				String author,
@@ -43,7 +44,8 @@ public final class Configurator implements PersistentStateComponent<Configurator
 				String runFile,
 				String archiveDirectory,
 				boolean codeEliminationOn,
-				boolean codeReformattingOn
+				boolean codeReformattingOn,
+				boolean processAtCoderOn
 		) {
 			this.author = author;
 			this.tasksDirectory = tasksDirectory;
@@ -52,10 +54,11 @@ public final class Configurator implements PersistentStateComponent<Configurator
 			this.archiveDirectory = archiveDirectory;
 			this.codeEliminationOn = codeEliminationOn;
 			this.codeReformattingOn = codeReformattingOn;
+			this.processAtCoderOn = processAtCoderOn;
 		}
 
 		public State() {
-			this("", "tasks", "output/main.cpp", "testrunner/main.cpp", "archive", false, false);
+			this("", "tasks", "output/main.cpp", "testrunner/main.cpp", "archive", false, false, true);
 		}
 
 		public String getAuthor() {
@@ -86,6 +89,10 @@ public final class Configurator implements PersistentStateComponent<Configurator
 			return codeReformattingOn;
 		}
 
+		public boolean isProcessAtCoderOn() {
+			return processAtCoderOn;
+		}
+
 		@Deprecated
 		public void setAuthor(String author) {
 			this.author = author;
@@ -114,6 +121,11 @@ public final class Configurator implements PersistentStateComponent<Configurator
 		@Deprecated
 		public void setCodeReformattingOn(boolean codeReformattingOn) {
 			this.codeReformattingOn = codeReformattingOn;
+		}
+
+		@Deprecated
+		public void setProcessAtCoderOn(boolean processAtCoderOn) {
+			this.processAtCoderOn = processAtCoderOn;
 		}
 	}
 }

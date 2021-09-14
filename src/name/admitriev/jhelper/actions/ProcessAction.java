@@ -35,7 +35,7 @@ public class ProcessAction extends BaseAction {
 		if (!FileUtils.isCppFile(file)) {
 			throw new NotificationException("Not a cpp file", "Only cpp files are currently supported");
 		}
-		String result = IncludesProcessor.process(file);
+		String result = IncludesProcessor.process(e.getProject(), file);
 		FileUtils.writeToFile(file, result);
 	}
 }
